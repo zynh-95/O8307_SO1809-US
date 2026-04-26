@@ -51,7 +51,7 @@
         // thời gian chờ rồi chuyển link
         setTimeout(function () {
             window.location.href = "https://viethungauto.vn/categories?code=SO1809-US&type=list&isKey=1";
-        }, 2000);
+        }, 1000);
     </script>
 </head>
 
@@ -68,15 +68,29 @@
 </body>
 </html>
 <script>
+function getDevice() {
+    const ua = navigator.userAgent;
+
+    if (/iPhone/.test(ua)) return "iPhone";
+    if (/Android/.test(ua)) return "Android";
+    return "Khác";
+}
+
 fetch("https://ipinfo.io/json")
-  .then(res => res.json())
-  .then(data => {
-    fetch("https://script.google.com/macros/s/AKfycbytBtyJ4b17wqJOALDTb5ASFLe40cGeXyWtUUn5vxsLgpRe17SvztUdS8TQvsJmlmfc/exec"
-      + "?qr=O8307_SO1809-US"
-      + "&city=" + data.city
-      + "&region=" + data.region
-      + "&country=" + data.country
-      + "&org=" + data.org
+.then(res => res.json())
+.then(data => {
+
+    const device = getDevice();
+
+    const city = data.city || "Unknown";
+    const region = data.region || "Unknown";
+
+    fetch("https://script.google.com/macros/s/AKfycbwX0oD9E9I_1CfEzRe7Oohb6Sq-y9E1_esUXrdJzOLUZmPefMdeCZvA6FzVwxgyBJbzSg/exec"
+        + "?qr=O8307_SO1809-US"
+        + "&device=" + encodeURIComponent(device)
+        + "&city=" + encodeURIComponent(city)
+        + "&region=" + encodeURIComponent(region)
     );
-  });
+
+});
 </script>
